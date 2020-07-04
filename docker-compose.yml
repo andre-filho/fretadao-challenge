@@ -1,0 +1,34 @@
+version: '3.5'
+services:
+  api:
+    build: .
+    volumes:
+      - .:/api
+      - bun:/bun
+    ports:
+      - 3000:3000
+    networks:
+      - api
+      - default
+    depends_on:
+      - db
+
+  db:
+    container_name: db
+    image: postgres:9.6
+    ports:
+      - 4321:4321
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_HOST=db
+    networks: 
+      - api
+      - default
+
+networks:
+  api:
+
+volumes: 
+    bun:
+        
