@@ -1,8 +1,8 @@
-class Api::V1::ProfileController < ApplicationController
+class Api::V1::ProfilesController < ApplicationController
   before_action :set_profile, only: [:show, :update, :destroy]
 
   def index
-    @profiles = Profile.all
+    @profiles = Profile.all()
 
     render json: @profiles
   end
@@ -15,7 +15,7 @@ class Api::V1::ProfileController < ApplicationController
     @profile = Profile.new(profile_params)
 
     if @profile.save
-      render json: @profile, status: :created, location: @profile
+      render json: @profile, status: :created
     else
       render json: @profile.errors, status: :unprocessable_entity
     end

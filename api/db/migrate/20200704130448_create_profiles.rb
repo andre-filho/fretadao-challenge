@@ -7,7 +7,7 @@ class CreateProfiles < ActiveRecord::Migration[6.0]
       t.integer :gh_followers
       t.integer :gh_subscriptions
       t.integer :gh_stars
-      t.number :gh_contributions
+      t.integer :gh_contributions
       t.string :image_url
 
       t.timestamps
