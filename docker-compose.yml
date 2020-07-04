@@ -1,9 +1,25 @@
 version: '3.5'
 services:
+  front:
+    container_name: front
+    build: 
+      context: ./client
+    volumes: 
+      - ./client:/client
+      - nodemodules:/client/nodemodules
+    ports: 
+      - 8080:8080
+    networks: 
+      - default
+    depends_on:
+      - api  
+
   api:
-    build: .
+    container_name: api
+    build: 
+      context: ./api
     volumes:
-      - .:/api
+      - ./api:/api
       - bun:/bun
     ports:
       - 3000:3000
@@ -30,5 +46,6 @@ networks:
   api:
 
 volumes: 
-    bun:
+  bun:
+  nodemodules:
         
