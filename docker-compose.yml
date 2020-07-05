@@ -2,21 +2,22 @@ version: '3.5'
 services:
   front:
     container_name: front
-    build: 
+    build:
       context: ./client
-    volumes: 
+    volumes:
       - ./client:/client
+      - ./client/node_modules:/client/node_modules
       - nodemodules:/client/nodemodules
-    ports: 
+    ports:
       - 8080:8080
-    networks: 
+    networks:
       - default
     depends_on:
-      - api  
+      - api
 
   api:
     container_name: api
-    build: 
+    build:
       context: ./api
     volumes:
       - ./api:/api
@@ -38,14 +39,13 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
       - POSTGRES_HOST=db
-    networks: 
+    networks:
       - api
       - default
 
 networks:
   api:
 
-volumes: 
+volumes:
   bun:
   nodemodules:
-        
