@@ -1,9 +1,8 @@
 class Api::V1::ProfilesController < ApplicationController
   before_action :set_profile, only: [:show, :update, :destroy]
 
-  def index
-    @profiles = Profile.all()
-
+  def search
+    @profiles = Profile.search_by_term(params[:query])
     render json: @profiles
   end
 

@@ -1,10 +1,20 @@
 class Profile < ApplicationRecord
+  include PgSearch
   include HTTParty
   include Nokogiri
 
   validates :name, presence: true
   validates :url, presence: true, uniqueness: true
   # the other fields are validated by the validate_(scrapped/url)_fields methods
+
+  pg_search_scope :search_by_term,
+    against: [:name, :username, :organizations, :location],
+    using: {
+      tsearch: {
+        any_word: true,
+        prefix: true
+      }
+    }
 
   before_save do
     collect_scrappable_information
