@@ -10,7 +10,7 @@ Para o front-end escolhi utilizar o Vue.js devido à minha já existente experi�
 com a tecnologia.
 
 ### Docker
-Ter o ambiente de desenvolvimento containerizado com docker ?
+Ter o ambiente de desenvolvimento containerizado com docker
 
 ## Observações
 - Para o encurtamento de urls acabei por faze-lo por meio de webscrapping, visto que pra vários serviços o serviço de encurtamento por API é pago e outras requerem configuração a mais. Assim, tambem se diminui a complexidade por conta da aplicação retirar informação da web de apenas uma forma.

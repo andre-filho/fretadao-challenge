@@ -1,0 +1,27 @@
+sudo: required
+
+language: generic
+
+env:
+  global:
+  - RAILS_ENV=test
+
+services:
+  - docker
+
+before_script:
+  - docker-compose up -d api
+  - docker-compose up -d front
+
+install: true
+
+script:
+  - >
+    while ! docker logs api | grep "Listening on tcp://0.0.0.0:3000"; do
+        echo "Waiting for start script to finish..."
+        sleep 2
+    done;
+  - docker exec -it api bundle exec rails db:test:prepare
+  - docker exec -it api bundle exec rails test
+  - docker exec -it api bundle exec rubocop --lint
+  - docker exec -it front yarn run lint
