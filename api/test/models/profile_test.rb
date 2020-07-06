@@ -24,7 +24,6 @@ class ProfileTest < ActiveSupport::TestCase
   test "should delete profile" do
     before = Profile.count()
     @valid_profile.destroy
-    after = Profile.count()
 
     assert(Profile.count() == before - 1)
   end
