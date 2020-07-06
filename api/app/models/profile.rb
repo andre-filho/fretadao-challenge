@@ -1,5 +1,5 @@
 class Profile < ApplicationRecord
-  include PgSearch
+  include PgSearch::Model
   include HTTParty
   include Nokogiri
 
