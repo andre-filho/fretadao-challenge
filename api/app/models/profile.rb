@@ -3,7 +3,8 @@ class Profile < ApplicationRecord
   include Nokogiri
 
   validates :name, presence: true
-  validates :url, presence: true
+  validates :url, presence: true, uniqueness: true
+  # the other fields are validated by the validate_(scrapped/url)_fields methods
 
   before_save do
     collect_scrappable_information
@@ -33,6 +34,15 @@ class Profile < ApplicationRecord
     if Profile.find_by_url(self.url).present?
       self.errors.add(:url, 'This URL is not unique')
     end
+
+    if self.image_url.nil? or self.image_url.empty?
+      self.errors.add(:image_url, 'Field not Found')
+    end
+
+    if self.url.nil? or self.url.empty?
+      self.errors.add(:url, 'Field not Found')
+    end
+
   end
 
 
@@ -98,14 +108,6 @@ class Profile < ApplicationRecord
     if self.subscriptions.nil? or self.subscriptions < 0
       self.errors.add(:subscriptions, 'Field not Found')
     end
-
-    if self.image_url.nil? or self.image_url.empty?
-      self.errors.add(:image_url, 'Field not Found')
-    end
-
-    if self.url.nil? or self.url.empty?
-      self.errors.add(:url, 'Field not Found')
-    end
   end
 
   def scrap_profile_data
@@ -142,9 +144,13 @@ class Profile < ApplicationRecord
       self.subscriptions =  network_interactions[1].text
     end
 
+    if organizations.any?
+      # self.organizations defaults to []
+      self.organizations = organizations.map { |org| org['aria-label'] }
+    end
+
     # with organizations, image_url breaks
     self.image_url = image_url.first['src']
-    self.organizations = organizations.empty? ? [] : organizations.map { |org| org['aria-label'] }
   end
 
 end
