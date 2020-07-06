@@ -17,7 +17,13 @@ class Api::V1::ProfilesController < ApplicationController
     if @profile.save
       render json: @profile, status: :created
     else
-      render json: @profile.errors, status: :unprocessable_entity
+      if @profile.errors.key?('404')
+        # Profile does not exist on github
+        render json: { message: 'Profile not found on github!' },
+                      status: :unprocessable_entity
+      else
+        render json: @profile.errors, status: :unprocessable_entity
+      end
     end
   end
 
