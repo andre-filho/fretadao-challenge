@@ -1,7 +1,7 @@
 FROM ruby:2.5.7
 EXPOSE 3000
 
-RUN apt-get update -qq && apt-get install -y nodejs postgresql-client
+RUN apt-get update -qq && apt-get install -y nodejs postgresql-client --no-install-recommends
 
 WORKDIR /api
 
