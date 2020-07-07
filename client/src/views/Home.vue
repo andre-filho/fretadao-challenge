@@ -46,8 +46,10 @@
 </template>
 
 <script>
-import axios from 'axios'
 import ResultsList from '@/components/ResultsList'
+import Factory from '@/api/factory'
+
+const ProfilesAPI = Factory.getApi('profiles')
 
 export default {
   name: 'Home',
@@ -55,7 +57,7 @@ export default {
   data () {
     return {
       searchString: undefined,
-      searchResults: [],
+      searchResults: undefined,
       errors: []
     }
   },
@@ -65,9 +67,8 @@ export default {
   },
 
   methods: {
-    async searchUser () {
-      await axios
-        .get('http://0.0.0.0:3000/api/v1/profiles/')
+    searchUser () {
+      ProfilesAPI.search(this.searchString)
         .then((res) => {
           this.searchResults = res.data
         })
@@ -78,3 +79,6 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+</style>
