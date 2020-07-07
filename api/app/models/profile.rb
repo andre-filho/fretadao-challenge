@@ -147,11 +147,10 @@ class Profile < ApplicationRecord
     end
 
     if organizations.any?
-      # self.organizations defaults to []
       self.organizations = organizations.map do |org|
         unless org.nil?
-          unless org['aria-label'].nil?
-            org = org['aria-label']
+          unless org['aria-label'].nil? # Exclude sponsors
+            org['aria-label']
           end
         end
       end

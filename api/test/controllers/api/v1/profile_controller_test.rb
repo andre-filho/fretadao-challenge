@@ -43,8 +43,6 @@ class Api::V1::ProfileControllerTest < ActionDispatch::IntegrationTest
       url: @matz.url
     }
 
-    old_matz = @matz
-
     put(api_v1_profile_path(id: @matz.id), params: { profile: update_params })
     response = JSON.parse(@response.body)
 
@@ -108,8 +106,6 @@ class Api::V1::ProfileControllerTest < ActionDispatch::IntegrationTest
     get(search_api_v1_profiles_path, params: { query: '' })
     res_4 = JSON.parse(@response.body)
     assert_response :success
-
-    profiles = Profile.all()
 
     assert(res_1.length == 2)
     assert(res_1.is_a?(Array))
