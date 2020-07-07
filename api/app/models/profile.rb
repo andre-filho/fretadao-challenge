@@ -37,14 +37,6 @@ class Profile < ApplicationRecord
 
 
   def validate_url_fields
-    if Profile.find_by_image_url(self.image_url).present?
-      self.errors.add(:image_url, 'This URL is not unique')
-    end
-
-    if Profile.find_by_url(self.url).present?
-      self.errors.add(:url, 'This URL is not unique')
-    end
-
     if self.image_url.nil? or self.image_url.empty?
       self.errors.add(:image_url, 'Field not Found')
     end
@@ -57,7 +49,7 @@ class Profile < ApplicationRecord
 
 
   def shrink_url(url)
-    regex_short_urls = /(https:\/\/shorturl\.at\/\w+)/
+    regex_short_urls = /(http:\/\/shorturl\.at\/\w+)/
     regex_github_profile_url = /(github\.com\/\w+)/
     regex_github_image_url = /(githubusercontent\.com\/\w+)/
 
@@ -69,7 +61,7 @@ class Profile < ApplicationRecord
       raw_page = HTTParty.post('https://www.shorturl.at/shortener.php', body: { u: url })
 
       parsed_page = Nokogiri::HTML(raw_page.body)
-      url = 'https://' + parsed_page.css('#shortenurl').first['value']
+      url = 'http://' + parsed_page.css('#shortenurl').first['value']
 
     elsif url.match(regex_short_urls)
       # avoid shrinking again on update if url isn't changed
@@ -83,10 +75,6 @@ class Profile < ApplicationRecord
 
 
   def validate_scrapped_fields
-    if Profile.find_by_username(self.username).present?
-      self.errors.add(:username, 'Profile with this username already exists')
-    end
-
     if self.email.nil?
       self.errors.add(:email, 'Field not Found')
     end
@@ -103,7 +91,7 @@ class Profile < ApplicationRecord
       self.errors.add(:username, 'Field not Found')
     end
 
-    if self.contributions.nil? or self.contributions <= 0
+    if self.contributions.nil? or self.contributions < 0
       self.errors.add(:contributions, 'Field not Found')
     end
 
@@ -130,6 +118,11 @@ class Profile < ApplicationRecord
       return
     end
 
+    if parsed_page.css('img.TableObject-item.avatar').any?
+      self.errors.add('404', 'Not Found')
+      return
+    end
+
     self.username = parsed_page.css('.p-nickname').text
     self.email = parsed_page.css('li.vcard-detail a.u-email').text
     self.location = parsed_page.css('li.vcard-detail span.p-label').text
@@ -141,10 +134,9 @@ class Profile < ApplicationRecord
     organizations = parsed_page.css('.h-card div .avatar-group-item')
 
     # since creating an account is a contribution, it should always be shown
-    self.contributions = contributions.empty? ? nil : contributions[1].text[/[0-9]+/]
+    self.contributions = contributions.empty? ? 0 : contributions[1].text[/[0-9]+/]
 
     if network_interactions.empty?
-      # these don't appear on gh profile if their value is 0
       self.stars = 0
       self.followers = 0
       self.subscriptions = 0
@@ -156,11 +148,18 @@ class Profile < ApplicationRecord
 
     if organizations.any?
       # self.organizations defaults to []
-      self.organizations = organizations.map { |org| org['aria-label'] }
+      self.organizations = organizations.map do |org|
+        unless org.nil?
+          unless org['aria-label'].nil?
+            org = org['aria-label']
+          end
+        end
+      end
     end
 
     # with organizations, image_url breaks
-    self.image_url = image_url.first['src']
+    if image_url.any?
+      self.image_url = image_url.first['src']
+    end
   end
-
 end
