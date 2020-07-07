@@ -87,7 +87,40 @@ class Api::V1::ProfileControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should search profiles by name, username, organization or location' do
+    Profile.create([
+      { name: 'andre de sousa', url: 'https://github.com/andre-filho' },
+      { name: 'andre lewis', url: 'https://github.com/andre' },
+      { name: 'newbie user', url: 'https://github.com/newbie-test-case' },
+    ])
 
+    get(search_api_v1_profiles_path, params: { query: 'andre' })
+    res_1 = JSON.parse(@response.body)
+    assert_response :success
+
+    get(search_api_v1_profiles_path, params: { query: 'sousa' })
+    res_2 = JSON.parse(@response.body)
+    assert_response :success
+
+    get(search_api_v1_profiles_path, params: { query: 'lewis' })
+    res_3 = JSON.parse(@response.body)
+    assert_response :success
+
+    get(search_api_v1_profiles_path, params: { query: '' })
+    res_4 = JSON.parse(@response.body)
+    assert_response :success
+
+    profiles = Profile.all()
+
+    assert(res_1.length == 2)
+    assert(res_1.is_a?(Array))
+
+    assert(res_2.length == 1)
+    assert(res_2.is_a?(Array))
+
+    assert(res_3.length == 1)
+    assert(res_3.is_a?(Array))
+
+    assert(res_4.empty?)
   end
 
   test 'should not create a profile without name or url' do
