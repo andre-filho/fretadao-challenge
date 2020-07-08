@@ -29,8 +29,6 @@ ActiveRecord::Schema.define(version: 2020_07_05_165750) do
     t.string "organizations", default: [], array: true
     t.string "location"
     t.string "email"
-    t.index ["name"], name: "index_profiles_on_name"
-    t.index ["username"], name: "index_profiles_on_username"
   end
 
 end

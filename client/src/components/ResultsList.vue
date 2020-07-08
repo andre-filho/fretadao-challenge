@@ -31,12 +31,6 @@
         <v-row dense>
           <v-col>
             <dialog-form :profile=profile @updatedEvent="treatEvent"/>
-            <!-- <v-btn
-              icon
-              dense
-            >
-              <v-icon small>fas fa-edit</v-icon>
-            </v-btn> -->
           </v-col>
           <v-col>
             <v-btn
@@ -78,7 +72,7 @@ export default {
   },
 
   methods: {
-    treatEvent (value) {
+    treatEvent () {
       // pass the search argument back to parent to redo the request
       this.$emit('updatedProfile', this.search)
     }

@@ -18,6 +18,20 @@
 
         <v-card-text>
           <v-container>
+            <div
+              v-if="errors.length > 0"
+            >
+              <v-alert
+                v-for="err in errors"
+                :key="err.id"
+                dense
+                dismissible
+                type="error"
+              >
+                {{ err }}
+              </v-alert>
+            </div>
+
             <v-row>
               <v-col cols="12">
                 <v-text-field
@@ -113,10 +127,7 @@ export default {
           this.name = res.data.name
           this.url = res.data.url
 
-          const updatedProfile = {
-            name: this.name,
-            url: this.url
-          }
+          const updatedProfile = res.data
           // pass updated profile info to parent
           this.$emit('updatedEvent', updatedProfile)
           this.loading = false

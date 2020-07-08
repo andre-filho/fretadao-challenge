@@ -6,7 +6,7 @@ if Profile.count() > 0
 end
 
 p '> Creating new profiles!'
-profiles = Profile.create!([
+Profile.create!([
   {name: 'Andre de Sousa Costa Filho', url: 'https://github.com/andre-filho'},
   {name: 'Alax Alves', url: 'https://github.com/alaxalves'},
   {name: 'Thalisson Melo', url: 'https://github.com/ThalissonMelo'},
