@@ -23,5 +23,4 @@ before_script:
   - docker-compose exec api bundle exec rails db:test:prepare
   - docker-compose exec api bundle exec rails test
   - docker-compose exec api bundle exec rubocop --lint
-  - docker-compose exec front yarn add eslint
   - docker-compose exec front yarn run lint-docker
