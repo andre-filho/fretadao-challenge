@@ -2,14 +2,20 @@
   <v-app>
     <v-app-bar
       app
-      flat
       dense
       dark
       color="blue-grey"
       class="px-3"
     >
       <div class="d-flex align-center">
-        THE PROFILE INDEXER
+        <v-btn
+          depressed
+          dense
+          color="blue-grey"
+          :to="{ name: 'home' }"
+        >
+          THE PROFILE INDEXER
+        </v-btn>
       </div>
       <v-spacer></v-spacer>
 
@@ -22,9 +28,9 @@
       </v-btn>
     </v-app-bar>
 
-    <v-content>
+    <v-main>
       <router-view/>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 

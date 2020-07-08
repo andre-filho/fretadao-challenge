@@ -3,6 +3,7 @@
     <v-btn
       icon
       dense
+      color="blue-grey"
       @click.stop="dialog = true"
     >
       <v-icon small>fas fa-edit</v-icon>
@@ -39,7 +40,7 @@
                   outlined
                   required
                   label="Name"
-                  hint="Leave blank to keep the previous value"
+                  hint="Leave unchanged to keep the previous value"
                   :placeholder="name"
                   v-model="name"
                 />
@@ -50,7 +51,7 @@
                   outlined
                   required
                   label="Github URL"
-                  hint="Leave blank to keep the previous value"
+                  hint="Leave unchanged to keep the previous value"
                   :placeholder="url"
                   v-model="url"
                 />
@@ -69,15 +70,16 @@
         <v-card-actions class="pb-6 px-6">
           <v-spacer></v-spacer>
           <v-btn
-            outlined
-            color="error"
+            text
+            color="blue-grey"
             @click="dialog = false"
           >
-            <v-icon small left>fas fa-times</v-icon> Close
+            Close
           </v-btn>
           <v-btn
+            depressed
             dark
-            color="primary"
+            color="blue-grey"
             :loading="loading"
             @click="update()"
           >

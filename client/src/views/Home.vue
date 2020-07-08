@@ -6,12 +6,21 @@
       <v-container fluid>
 
         <v-alert
-        v-if="legacyError !== undefined"
+          v-if="legacyError !== undefined"
           dense
           dismissible
           type="error"
         >
           {{ legacyError.message }}
+        </v-alert>
+
+        <v-alert
+          v-if="message !== undefined"
+          dense
+          dismissible
+          type="success"
+        >
+          {{ message }}
         </v-alert>
 
         <div class="text-center mt-10 mb-5 py-2 grey--text text--darken-3">
@@ -100,6 +109,7 @@ export default {
       searchString: undefined,
       searchResults: undefined,
       legacyError: undefined,
+      message: undefined,
       errors: []
     }
   },
@@ -130,6 +140,10 @@ export default {
       } else {
         this.legacyError = this.$route.params.error
       }
+    }
+
+    if (this.$route.params.message !== undefined) {
+      this.message = this.$route.params.message
     }
   }
 }

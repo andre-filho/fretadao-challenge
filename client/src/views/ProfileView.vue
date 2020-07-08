@@ -3,7 +3,7 @@
     <div>
       <!-- src="https://baazarproductions.com/wp-content/uploads/2018/02/background-horizontal-dark-wood.jpg" -->
       <!-- src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg" -->
-      <v-container>
+      <v-container id="dark">
         <v-row
           align="center"
           justify="center"
@@ -20,34 +20,109 @@
               {{ profile.name }}
             </h1>
 
-            <h4 class="subheading">
+            <h3 class=" mb-3">
               @{{ profile.username }}
-            </h4>
+            </h3>
 
-            <div class="mt-5">
-              <v-btn
-                dense
-                icon
-                class="mx-2"
-                :href="profile.url"
-              >
-                <v-icon small>fab fa-github</v-icon>
-              </v-btn>
+            <div v-if="profile.organizations.length > 0" class="mt-5">
+              <h4 class="subheading">
+                Organizations
+              </h4>
 
-              <dialog-form :profile="profile" @updatedEvent="treatEvent"/>
+              <div>
+                <v-btn
+                  dark
+                  dense
+                  depressed
+                  class="ma-3"
+                  color="blue-grey"
+                  v-for="org in profile.organizations"
+                  :key="org.id"
+                >
+                  {{ org }}
+                </v-btn>
+              </div>
 
-              <v-btn
-                dense
-                icon
-                class="mx-2"
-                @click="deleteProfile()"
-              >
-                <v-icon small>fas fa-times</v-icon>
-              </v-btn>
             </div>
+
+            <p class="text-h6 mt-4 mb-1">
+              Profile actions
+            </p>
+            <v-row dense class="">
+              <v-spacer></v-spacer>
+              <v-col cols="1">
+                <v-btn
+                  dense
+                  icon
+                  class="mx-2"
+                  color="blue-grey"
+                  :href="profile.url"
+                >
+                  <v-icon small>fab fa-github</v-icon>
+                </v-btn>
+              </v-col>
+
+              <v-col cols="1">
+                <dialog-form :profile="profile" @updatedEvent="treatEvent"/>
+              </v-col>
+
+              <v-col cols="1">
+                <dialog-delete :profile=profile @deletedEvent="treatDelete"/>
+              </v-col>
+              <v-spacer></v-spacer>
+            </v-row>
           </v-col>
         </v-row>
+      </v-container>
+    </div>
 
+    <div class="mt-3 grey lighten-3">
+      <v-container class="pt-10 pb-10">
+        <p class="display-1 text-center mt-5 mb-10">
+          Profile data from github
+        </p>
+
+        <v-row>
+          <v-col
+            sm="12"
+            md="8" offset-md="2"
+          >
+            <v-simple-table>
+              <template v-slot:default>
+                <tbody>
+                  <tr>
+                    <td class="font-weight-bold">Full name</td>
+                    <td>{{ profile.name }}</td>
+                  </tr>
+                  <tr>
+                    <td class="font-weight-bold">Github username</td>
+                    <td>{{ profile.username }}</td>
+                  </tr>
+                  <tr>
+                    <td class="font-weight-bold">Email</td>
+                    <td>Email is only shown on Github for logged-in users.</td>
+                  </tr>
+                  <tr>
+                    <td class="font-weight-bold">Stars</td>
+                    <td>{{ profile.stars }}</td>
+                  </tr>
+                  <tr>
+                    <td class="font-weight-bold">Followers</td>
+                    <td>{{ profile.followers }}</td>
+                  </tr>
+                  <tr>
+                    <td class="font-weight-bold">Following</td>
+                    <td>{{ profile.subscriptions }}</td>
+                  </tr>
+                  <tr>
+                    <td class="font-weight-bold">Contributions in last year</td>
+                    <td>{{ profile.contributions }}</td>
+                  </tr>
+                </tbody>
+              </template>
+            </v-simple-table>
+          </v-col>
+        </v-row>
       </v-container>
     </div>
 
@@ -58,17 +133,22 @@
 import Factory from '@/api/factory'
 
 import DialogForm from '@/components/DialogForm'
+import DialogDelete from '@/components/DialogDelete'
 
 const ProfilesAPI = Factory.getApi('profiles')
 
 export default {
   name: 'ProfileView',
 
-  components: { DialogForm },
+  components: {
+    DialogForm,
+    DialogDelete
+  },
 
   data () {
     return {
       profile: {},
+      formattedProfileInfo: [],
       errors: []
     }
   },
@@ -98,6 +178,13 @@ export default {
 
     treatEvent (value) {
       this.profile = value
+    },
+
+    treatDelete (value) {
+      this.$router.push({
+        name: 'home',
+        params: { message: 'Profile deleted successfully!' }
+      })
     }
   },
 

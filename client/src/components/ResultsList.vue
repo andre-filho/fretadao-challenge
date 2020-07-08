@@ -1,7 +1,7 @@
 <template>
 
   <v-list two-line>
-    <v-subheader>Search results for: "{{ query }}"</v-subheader>
+    <v-subheader v-if="query !== ''">Search results for: "{{ query }}"</v-subheader>
 
     <v-list-item
       v-for="profile in results"
@@ -36,10 +36,14 @@
             <v-btn
               icon
               dense
+              color="blue-grey"
               :to="{ name: 'profileView', params: { id: profile.id, profile: profile }}"
             >
               <v-icon small>fas fa-eye</v-icon>
             </v-btn>
+          </v-col>
+          <v-col>
+            <dialog-delete :profile=profile @deletedEvent="treatEvent"/>
           </v-col>
         </v-row>
       </v-list-item-action>
@@ -51,12 +55,14 @@
 
 <script>
 import DialogForm from '@/components/DialogForm'
+import DialogDelete from '@/components/DialogDelete'
 
 export default {
   name: 'ResultsList',
 
   components: {
-    DialogForm
+    DialogForm,
+    DialogDelete
   },
 
   data () {
@@ -74,16 +80,16 @@ export default {
   methods: {
     treatEvent () {
       // pass the search argument back to parent to redo the request
-      this.$emit('updatedProfile', this.search)
+      this.$emit('updatedProfile', this.query)
     }
   },
 
   mounted () {
-    this.query = this.search
+    this.query = this.search ? this.search : ''
   },
 
   updated () {
-    this.query = this.search
+    this.query = this.search ? this.search : ''
   }
 }
 </script>
