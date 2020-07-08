@@ -65,12 +65,13 @@ class ProfileTest < ActiveSupport::TestCase
   test "should not create nor update profile without name" do
     before = Profile.count()
 
-    assert(!Profile.create(name: nil).valid?)
-    assert(!Profile.create(name: '').valid?)
-    assert_equal(@valid_profile.update(name: nil), false)
-    assert_equal(@valid_profile.update(name: ''), false)
-
+    Profile.create(name: nil, url: 'https://github.com/andre')
+    Profile.create(name: '', url: 'https://github.com/andre')
     assert_equal(before, Profile.count())
+
+    assert_equal(@valid_profile.update(name: '', url: @valid_profile.url), false)
+    assert_equal(@valid_profile.update(name: nil, url: @valid_profile.url), false)
+
   end
 
   test "should not create nor update profile without url" do
