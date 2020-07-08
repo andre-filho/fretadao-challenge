@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class SearchControllerTest < ActionDispatch::IntegrationTest
+class Api::V1::SearchControllerTest < ActionDispatch::IntegrationTest
   test "should get search_profiles" do
     Profile.create([
       { name: 'andre de sousa', url: 'https://github.com/andre-filho' },
