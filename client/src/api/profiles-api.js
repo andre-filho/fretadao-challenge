@@ -3,10 +3,6 @@ import API from './api'
 const endpointRoot = '/profiles'
 
 const ProfilesAPI = {
-  search (query) {
-    return API.get(`${endpointRoot}/search/?query=${query}`)
-  },
-
   getProfile (id) {
     return API.get(`${endpointRoot}/${id}/`)
   },

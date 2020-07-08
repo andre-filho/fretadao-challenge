@@ -27,10 +27,10 @@
         </div>
 
         <v-row>
-          <v-col sm='8' offset-sm='2' md='6' offset-md='3'>
-            <v-form @submit="searchUser()">
+          <v-col cols="12" sm='8' offset-sm='2' md='6' offset-md='3'>
+            <v-form @submit="makeSearch()">
               <v-row no-gutters>
-                <v-col sm='10'>
+                <v-col cols="12" sm='10'>
                   <v-text-field
                     outlined
                     dense
@@ -40,12 +40,12 @@
                     v-model="searchString"
                   />
                 </v-col>
-                <v-col sm='2'>
+                <v-col cols="12" sm='2'>
                   <v-btn
                     color='primary'
                     class="py-5 rounded-r rounded-l-0"
                     :disabled="!searchString"
-                    @click="searchUser()"
+                    @click="makeSearch()"
                   >
                     Search
                   </v-btn>
@@ -77,7 +77,7 @@
         <results-list v-else
           :search="searchString"
           :results="searchResults"
-          @updatedProfile="handleUpdatedProfile"
+          @updatedProfile="makeSearch"
         />
       </v-container>
     </div>
@@ -90,7 +90,7 @@
 import ResultsList from '@/components/ResultsList'
 import Factory from '@/api/factory'
 
-const ProfilesAPI = Factory.getApi('profiles')
+const SearchAPI = Factory.getApi('search')
 
 export default {
   name: 'Home',
@@ -109,18 +109,11 @@ export default {
   },
 
   methods: {
-    searchUser () {
-      ProfilesAPI.search(this.searchString)
-        .then((res) => {
-          this.searchResults = res.data
-        })
-        .catch((err) => {
-          this.errors.push(err)
-        })
-    },
-    async handleUpdatedProfile (value) {
+    async makeSearch (value) {
       // redo search on update profile
-      await ProfilesAPI.search(value)
+      const searchQuery = value !== undefined ? value : this.searchString
+
+      await SearchAPI.searchProfiles(searchQuery)
         .then((res) => {
           this.searchResults = res.data
         })

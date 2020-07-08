@@ -1,7 +1,9 @@
 import ProfilesAPI from './profiles-api'
+import SearchAPI from './search-api'
 
 const apiList = {
-  profiles: ProfilesAPI
+  profiles: ProfilesAPI,
+  search: SearchAPI
 }
 
 const Factory = {
