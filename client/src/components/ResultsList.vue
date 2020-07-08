@@ -1,14 +1,17 @@
 <template>
 
   <v-list two-line>
-    <v-subheader>Search results for: "{{ search }}"</v-subheader>
+    <v-subheader>Search results for: "{{ query }}"</v-subheader>
 
     <v-list-item
       v-for="profile in results"
       :key="profile.username"
     >
       <v-list-item-avatar>
-        <v-img :src="profile.image_url"></v-img>
+        <v-img
+          :src="profile.image_url"
+          lazy-src="https://via.placeholder.com/50.png"
+        />
       </v-list-item-avatar>
 
       <v-list-item-content>
@@ -27,18 +30,19 @@
       <v-list-item-action>
         <v-row dense>
           <v-col>
-            <v-btn
+            <dialog-form :profile=profile @updatedEvent="treatEvent"/>
+            <!-- <v-btn
               icon
               dense
             >
               <v-icon small>fas fa-edit</v-icon>
-            </v-btn>
+            </v-btn> -->
           </v-col>
           <v-col>
             <v-btn
               icon
               dense
-              :to="{ name: 'profileView', params: { id: profile.id }}"
+              :to="{ name: 'profileView', params: { id: profile.id, profile: profile }}"
             >
               <v-icon small>fas fa-eye</v-icon>
             </v-btn>
@@ -52,12 +56,40 @@
 </template>
 
 <script>
+import DialogForm from '@/components/DialogForm'
+
 export default {
   name: 'ResultsList',
+
+  components: {
+    DialogForm
+  },
+
+  data () {
+    return {
+      query: '',
+      errors: []
+    }
+  },
 
   props: {
     results: Array,
     search: String
+  },
+
+  methods: {
+    treatEvent (value) {
+      // pass the search argument back to parent to redo the request
+      this.$emit('updatedProfile', this.search)
+    }
+  },
+
+  mounted () {
+    this.query = this.search
+  },
+
+  updated () {
+    this.query = this.search
   }
 }
 </script>

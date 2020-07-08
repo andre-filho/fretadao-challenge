@@ -2,7 +2,18 @@
 
   <div id="home">
     <div class="mb-5">
+
       <v-container fluid>
+
+        <v-alert
+        v-if="legacyError !== undefined"
+          dense
+          dismissible
+          type="error"
+        >
+          {{ legacyError.message }}
+        </v-alert>
+
         <div class="text-center mt-10 mb-5 py-2 grey--text text--darken-3">
           <span class="text-h1">
             <v-icon large class="grey--text text--darken-3">fab fa-github</v-icon>
@@ -17,7 +28,7 @@
 
         <v-row>
           <v-col sm='8' offset-sm='2' md='6' offset-md='3'>
-            <v-form>
+            <v-form @submit="searchUser()">
               <v-row no-gutters>
                 <v-col sm='10'>
                   <v-text-field
@@ -37,9 +48,6 @@
                     @click="searchUser()"
                   >
                     Search
-                    <!-- <v-icon dense>
-                      fas fa-search
-                    </v-icon> -->
                   </v-btn>
                 </v-col>
               </v-row>
@@ -67,8 +75,9 @@
         </div>
 
         <results-list v-else
-          :search='searchString'
+          :search="searchString"
           :results="searchResults"
+          @updatedProfile="handleUpdatedProfile"
         />
       </v-container>
     </div>
@@ -90,6 +99,7 @@ export default {
     return {
       searchString: undefined,
       searchResults: undefined,
+      legacyError: undefined,
       errors: []
     }
   },
@@ -107,6 +117,26 @@ export default {
         .catch((err) => {
           this.errors.push(err)
         })
+    },
+    async handleUpdatedProfile (value) {
+      // redo search on update profile
+      await ProfilesAPI.search(value)
+        .then((res) => {
+          this.searchResults = res.data
+        })
+        .catch((err) => {
+          this.errors.push(err)
+        })
+    }
+  },
+
+  beforeMount () {
+    if (this.$route.params.error !== undefined) {
+      if (this.$route.params.error.message === 'Request failed with status code 404') {
+        this.legacyError = { message: 'Profile not found!' }
+      } else {
+        this.legacyError = this.$route.params.error
+      }
     }
   }
 }

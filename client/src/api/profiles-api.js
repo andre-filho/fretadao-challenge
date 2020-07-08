@@ -7,15 +7,15 @@ const ProfilesAPI = {
     return API.get(`${endpointRoot}/search/?query=${query}`)
   },
 
-  get (id) {
+  getProfile (id) {
     return API.get(`${endpointRoot}/${id}/`)
   },
 
-  update (id, profile) {
+  updateProfile (id, profile) {
     return API.put(`${endpointRoot}/${id}/`, profile)
   },
 
-  delete (id) {
+  deleteProfile (id) {
     return API.delete(`${endpointRoot}/${id}/`)
   }
 }
