@@ -5,6 +5,9 @@ class Profile < ApplicationRecord
 
   validates :name, presence: true
   validates :url, presence: true, uniqueness: true
+  validates :image_url, presence: true
+
+  validates :username, presence: true, uniqueness: true
   # the other fields are validated by the validate_(scrapped/url)_fields methods
 
   pg_search_scope :search_by_term,
@@ -16,14 +19,15 @@ class Profile < ApplicationRecord
       }
     }
 
-  before_save do
+  # before_save do
+  before_validation do
     collect_scrappable_information
-    validate_scrapped_fields
-    validate_url_fields
+    # validate_scrapped_fields
+    # validate_url_fields
 
-    if self.errors.any?
-      raise ActiveRecord::RecordInvalid.new(self)
-    end
+    # if self.errors.any?
+    #   raise ActiveRecord::RecordInvalid.new(self)
+    # end
   end
 
 
@@ -133,7 +137,6 @@ class Profile < ApplicationRecord
     image_url = parsed_page.css('img.avatar.avatar-user.border')
     organizations = parsed_page.css('.h-card div .avatar-group-item')
 
-    # since creating an account is a contribution, it should always be shown
     self.contributions = contributions.empty? ? 0 : contributions[1].text[/[0-9]+/]
 
     if network_interactions.empty?
@@ -147,13 +150,7 @@ class Profile < ApplicationRecord
     end
 
     if organizations.any?
-      self.organizations = organizations.map do |org|
-        unless org.nil?
-          unless org['aria-label'].nil? # Exclude sponsors
-            org['aria-label']
-          end
-        end
-      end
+      self.organizations = organizations.map { |org| org['aria-label'] }.compact
     end
 
     # with organizations, image_url breaks
