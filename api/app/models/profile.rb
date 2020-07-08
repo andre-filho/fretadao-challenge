@@ -157,8 +157,10 @@ class Profile < ApplicationRecord
     end
 
     # with organizations, image_url breaks
-    if image_url.any?
+    unless image_url.empty?
       self.image_url = image_url.first['src']
+    else
+      self.image_url = ''
     end
   end
 end
