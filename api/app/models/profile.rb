@@ -11,13 +11,13 @@ class Profile < ApplicationRecord
   validates :username, presence: true, uniqueness: true
 
   pg_search_scope :search_by_term,
-  against: [:name, :username, :organizations, :location],
-  using: {
-    tsearch: {
-      any_word: true,
-      prefix: true
-    }
-  }
+                    against: [:name, :username, :organizations, :location],
+                    using: {
+                      tsearch: {
+                        any_word: true,
+                        prefix: true
+                      }
+                    }
 
   before_validation :collect_scrappable_information
 
@@ -58,12 +58,12 @@ class Profile < ApplicationRecord
     if parsed_page.css('p').text == 'Not Found'
       # this validation error is treated by the controller
       self.errors.add('404', 'Not Found')
-      return
+      :abort
     end
 
     if parsed_page.css('img.TableObject-item.avatar').any?
       self.errors.add('404', 'Not Found')
-      return
+      :abort
     end
 
     self.username = parsed_page.css('.p-nickname').text
