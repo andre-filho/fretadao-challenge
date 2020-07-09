@@ -1,11 +1,6 @@
 class Api::V1::ProfilesController < ApplicationController
   before_action :set_profile, only: [:show, :update, :destroy]
 
-  def index
-    @profiles = Profile.all()
-    render json: @profiles
-  end
-
   def show
     render json: @profile
   end
