@@ -7,7 +7,8 @@
     "dev": "vue-cli-service serve --host 0.0.0.0",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "lint-docker": "eslint"
+    "lint-docker": "eslint",
+    "test": ""
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.13.1",
