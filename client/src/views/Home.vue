@@ -39,7 +39,7 @@
 
         <v-row>
           <v-col cols="12" sm='8' offset-sm='2' md='6' offset-md='3'>
-            <v-form @submit="makeSearch">
+            <v-form @submit="makeSearch()">
               <v-row no-gutters>
                 <v-col cols="12" sm='10'>
                   <v-text-field
@@ -57,7 +57,7 @@
                     color='primary'
                     class="py-5 rounded-r rounded-l-0"
                     :disabled="!searchString"
-                    @click="makeSearch"
+                    @click="makeSearch()"
                   >
                     Search
                   </v-btn>
@@ -89,7 +89,7 @@
         <results-list v-else
           :search="searchString"
           :results="searchResults"
-          @updatedProfile="makeSearch"
+          @updatedProfile="makeSearch()"
         />
       </v-container>
     </div>
