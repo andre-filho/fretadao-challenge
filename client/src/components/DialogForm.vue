@@ -1,6 +1,18 @@
 <template>
   <div>
     <v-btn
+      v-if="refresh"
+      id="dialog-form-refresh"
+      icon
+      dense
+      color="blue-grey"
+      @click="editProfile"
+    >
+      <v-icon small>fas fa-sync</v-icon>
+    </v-btn>
+
+    <v-btn
+      v-else
       id="dialog-form-open"
       icon
       dense
@@ -105,7 +117,10 @@ export default {
   },
 
   props: {
-    type: String,
+    refresh: {
+      type: Boolean,
+      default: () => false
+    },
     profile: {
       type: Object,
       required: true
@@ -115,8 +130,8 @@ export default {
   methods: {
     async editProfile () {
       const profileData = {
-        name: this.name,
-        url: this.url
+        name: this.refresh ? this.name : this.profile.name,
+        url: this.refresh ? this.url : this.profile.url
       }
 
       await ProfileAPI.updateProfile(this.profile.id, profileData)

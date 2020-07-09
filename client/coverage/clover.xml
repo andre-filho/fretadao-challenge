@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1594319924096" clover="3.2.0">
-  <project timestamp="1594319924096" name="All files">
-    <metrics statements="112" coveredstatements="34" conditionals="18" coveredconditionals="6" methods="51" coveredmethods="10" elements="181" coveredelements="50" complexity="0" loc="112" ncloc="112" packages="7" files="16" classes="16"/>
+<coverage generated="1594325528575" clover="3.2.0">
+  <project timestamp="1594325528576" name="All files">
+    <metrics statements="113" coveredstatements="38" conditionals="22" coveredconditionals="8" methods="52" coveredmethods="13" elements="187" coveredelements="59" complexity="0" loc="113" ncloc="113" packages="7" files="16" classes="16"/>
     <package name="src">
       <metrics statements="5" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
       <file name="App.vue" path="/client/src/App.vue">
@@ -17,7 +17,7 @@
       </file>
     </package>
     <package name="src.api">
-      <metrics statements="14" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="1"/>
+      <metrics statements="14" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="2"/>
       <file name="api.js" path="/client/src/api/api.js">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="3" count="5" type="stmt"/>
@@ -30,12 +30,12 @@
         <line num="10" count="8" type="stmt"/>
       </file>
       <file name="profiles-api.js" path="/client/src/api/profiles-api.js">
-        <metrics statements="6" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
+        <metrics statements="6" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="1"/>
         <line num="3" count="5" type="stmt"/>
         <line num="5" count="5" type="stmt"/>
         <line num="7" count="0" type="stmt"/>
         <line num="11" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
         <line num="19" count="0" type="stmt"/>
       </file>
       <file name="search-api.js" path="/client/src/api/search-api.js">
@@ -46,7 +46,7 @@
       </file>
     </package>
     <package name="src.components">
-      <metrics statements="53" coveredstatements="16" conditionals="4" coveredconditionals="3" methods="26" coveredmethods="7"/>
+      <metrics statements="54" coveredstatements="19" conditionals="8" coveredconditionals="5" methods="27" coveredmethods="9"/>
       <file name="AddProfileFab.vue" path="/client/src/components/AddProfileFab.vue">
         <metrics statements="15" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="1"/>
         <line num="96" count="1" type="stmt"/>
@@ -82,26 +82,27 @@
         <line num="100" count="0" type="stmt"/>
       </file>
       <file name="DialogForm.vue" path="/client/src/components/DialogForm.vue">
-        <metrics statements="19" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="8" coveredmethods="2"/>
-        <line num="90" count="3" type="stmt"/>
-        <line num="92" count="3" type="stmt"/>
-        <line num="98" count="8" type="stmt"/>
-        <line num="117" count="0" type="stmt"/>
-        <line num="122" count="0" type="stmt"/>
-        <line num="124" count="0" type="stmt"/>
-        <line num="125" count="0" type="stmt"/>
-        <line num="127" count="0" type="stmt"/>
-        <line num="129" count="0" type="stmt"/>
-        <line num="130" count="0" type="stmt"/>
-        <line num="131" count="0" type="stmt"/>
-        <line num="134" count="0" type="stmt"/>
-        <line num="135" count="0" type="stmt"/>
+        <metrics statements="20" coveredstatements="8" conditionals="4" coveredconditionals="2" methods="9" coveredmethods="4"/>
+        <line num="102" count="3" type="stmt"/>
+        <line num="104" count="3" type="stmt"/>
+        <line num="110" count="10" type="stmt"/>
+        <line num="122" count="9" type="stmt"/>
+        <line num="132" count="1" type="stmt"/>
+        <line num="137" count="1" type="stmt"/>
+        <line num="139" count="0" type="stmt"/>
         <line num="140" count="0" type="stmt"/>
-        <line num="141" count="0" type="stmt"/>
+        <line num="142" count="0" type="stmt"/>
+        <line num="144" count="0" type="stmt"/>
         <line num="145" count="0" type="stmt"/>
+        <line num="146" count="0" type="stmt"/>
         <line num="149" count="0" type="stmt"/>
-        <line num="154" count="8" type="stmt"/>
-        <line num="155" count="8" type="stmt"/>
+        <line num="150" count="0" type="stmt"/>
+        <line num="155" count="0" type="stmt"/>
+        <line num="156" count="0" type="stmt"/>
+        <line num="160" count="0" type="stmt"/>
+        <line num="164" count="0" type="stmt"/>
+        <line num="169" count="10" type="stmt"/>
+        <line num="170" count="10" type="stmt"/>
       </file>
       <file name="ResultsList.vue" path="/client/src/components/ResultsList.vue">
         <metrics statements="6" coveredstatements="5" conditionals="4" coveredconditionals="3" methods="4" coveredmethods="3"/>
@@ -164,23 +165,23 @@
       </file>
       <file name="ProfileView.vue" path="/client/src/views/ProfileView.vue">
         <metrics statements="17" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="8" coveredmethods="0"/>
-        <line num="133" count="0" type="stmt"/>
-        <line num="135" count="0" type="stmt"/>
-        <line num="136" count="0" type="stmt"/>
-        <line num="138" count="0" type="stmt"/>
-        <line num="149" count="0" type="stmt"/>
-        <line num="158" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="159" count="0" type="stmt"/>
-        <line num="161" count="0" type="stmt"/>
-        <line num="162" count="0" type="stmt"/>
+        <line num="137" count="0" type="stmt"/>
+        <line num="139" count="0" type="stmt"/>
+        <line num="140" count="0" type="stmt"/>
+        <line num="142" count="0" type="stmt"/>
+        <line num="153" count="0" type="stmt"/>
+        <line num="162" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="163" count="0" type="stmt"/>
+        <line num="165" count="0" type="stmt"/>
         <line num="166" count="0" type="stmt"/>
-        <line num="168" count="0" type="stmt"/>
-        <line num="171" count="0" type="stmt"/>
+        <line num="170" count="0" type="stmt"/>
         <line num="172" count="0" type="stmt"/>
-        <line num="180" count="0" type="stmt"/>
+        <line num="175" count="0" type="stmt"/>
+        <line num="176" count="0" type="stmt"/>
         <line num="184" count="0" type="stmt"/>
-        <line num="192" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="193" count="0" type="stmt"/>
+        <line num="188" count="0" type="stmt"/>
+        <line num="196" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="197" count="0" type="stmt"/>
       </file>
     </package>
   </project>

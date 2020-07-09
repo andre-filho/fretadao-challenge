@@ -63,6 +63,10 @@
               </v-col>
 
               <v-col cols="1">
+                <dialog-form :profile="profile" @updatedEvent="treatEvent" type="refreshInfo"/>
+              </v-col>
+
+              <v-col cols="1">
                 <dialog-form :profile="profile" @updatedEvent="treatEvent"/>
               </v-col>
 

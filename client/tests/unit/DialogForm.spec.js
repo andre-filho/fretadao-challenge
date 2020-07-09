@@ -52,15 +52,39 @@ describe('DialogForm.vue', () => {
     })
   }),
 
-  it('should delete a profile when btn is clicked', () => {
+  it('should update a profile when btn is clicked', () => {
     const update = jest.fn()
     wrapper.vm.update = update
 
     wrapper.vm.dialog = true
     wrapper.vm.$nextTick().then(() => {
-      wrapper.find('#dialog-form-delete').trigger('click')
+      wrapper.find('#dialog-form-update').trigger('click')
 
       expect(update).toHaveBeenCalled()
     })
+  }),
+
+  it('should trigger refreshProfile', () => {
+    wrapper = mount(DialogForm, {
+      localVue,
+      propsData: {
+        refresh: true,
+        profile: {
+          name: 'Andre',
+          url: 'https://github.com/andre-filho'
+        }
+      }
+    })
+
+    const update = jest.fn()
+    wrapper.vm.update = update
+
+    wrapper.vm.dialog = true
+    wrapper.vm.$nextTick().then(() => {
+      wrapper.find('#dialog-form-refresh').trigger('click')
+
+      expect(update).toHaveBeenCalled()
+    })
+
   })
 })
