@@ -1,14 +1,14 @@
 require 'shorturl'
+require 'httparty'
+require 'nokogiri'
 
 class Profile < ApplicationRecord
   include PgSearch::Model
-  include HTTParty
-  include Nokogiri
 
   validates :name, presence: true
-  validates :image_url, presence: true, uniqueness: true
-  validates :url, presence: true, uniqueness: true
-  validates :username, presence: true, uniqueness: true
+  validates :username, :url, :image_url, presence: true, uniqueness: true
+
+  before_validation :gather_information_from_github
 
   pg_search_scope :search_by_term,
                     against: [:name, :username, :organizations, :location],
@@ -19,15 +19,12 @@ class Profile < ApplicationRecord
                       }
                     }
 
-  before_validation :collect_scrappable_information
-
   private
 
-  def collect_scrappable_information
+  def gather_information_from_github
     unless self.url.nil? or self.url.empty?
       scrap_profile_data
       self.url = shrink_url(self.url)
-      self.image_url = shrink_url(self.image_url)
     end
   end
 
@@ -44,8 +41,7 @@ class Profile < ApplicationRecord
     elsif url.match(regex_short_urls)
       # avoid shrinking again on update if url isn't changed
     else
-      # url is invalid, forcing a validation error
-      url = ''
+      url = ''  # force validation error
     end
 
     return url
@@ -55,16 +51,7 @@ class Profile < ApplicationRecord
     raw_page = HTTParty.get(self.url)
     parsed_page = Nokogiri::HTML(raw_page.body)
 
-    if parsed_page.css('p').text == 'Not Found'
-      # this validation error is treated by the controller
-      self.errors.add('404', 'Not Found')
-      :abort
-    end
-
-    if parsed_page.css('img.TableObject-item.avatar').any?
-      self.errors.add('404', 'Not Found')
-      :abort
-    end
+    validate_webpage_as_profile(parsed_page)
 
     self.username = parsed_page.css('.p-nickname').text
     self.email = parsed_page.css('li.vcard-detail a.u-email').text
@@ -73,7 +60,6 @@ class Profile < ApplicationRecord
     # network_interactions => followers, following (subscriptions) and stars
     network_interactions = parsed_page.css('span.text-bold.text-gray-dark')
     contributions = parsed_page.css('h2.f4.text-normal.mb-2')
-    image_url = parsed_page.css('img.avatar.avatar-user.border')
     organizations = parsed_page.css('.h-card div .avatar-group-item')
 
     self.contributions = contributions.empty? ? 0 : contributions[1].text[/[0-9]+/]
@@ -92,11 +78,19 @@ class Profile < ApplicationRecord
       self.organizations = organizations.map { |org| org['aria-label'] }.compact
     end
 
-    # with organizations, image_url breaks
+    image_url = parsed_page.css('img.avatar.avatar-user.border')
     unless image_url.empty?
-      self.image_url = image_url.first['src']
+      self.image_url = shrink_url(image_url.first['src'])
     else
       self.image_url = ''
     end
   end
+
+  def validate_webpage_as_profile(page)
+    if page.css('p').text == 'Not Found' or page.css('img.TableObject-item.avatar').any?
+      self.errors.add('404', 'Not Found')
+      :abort
+    end
+  end
+
 end
