@@ -10,15 +10,15 @@ const routes = [
     component: () => import('@/views/Home.vue')
   },
   {
-    path: '/profiles',
-    name: 'allProfiles',
-    component: () => import('@/views/ProfileList.vue')
-  },
-  {
     path: '/profiles/:id',
     props: true,
     name: 'profileView',
     component: () => import('@/views/ProfileView.vue')
+  },
+  {
+    path: '*',
+    name: '404',
+    component: () => import('@/views/404.vue')
   }
 ]
 

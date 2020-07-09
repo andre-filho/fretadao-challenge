@@ -1,10 +1,11 @@
 <template>
   <div>
     <v-btn
+      id="dialog-form-open"
       icon
       dense
       color="blue-grey"
-      @click.stop="dialog = true"
+      @click.stop="showModal"
     >
       <v-icon small>fas fa-edit</v-icon>
     </v-btn>
@@ -55,14 +56,6 @@
                   :placeholder="url"
                   v-model="url"
                 />
-                <!-- <v-text-field
-                  dense
-                  outlined
-                  required
-                  label="Github URL"
-                  placeholder='nanananana'
-                  prefix='https://github.com/'
-                /> -->
               </v-col>
             </v-row>
           </v-container>
@@ -70,18 +63,20 @@
         <v-card-actions class="pb-6 px-6">
           <v-spacer></v-spacer>
           <v-btn
+            id="dialog-form-close"
             text
             color="blue-grey"
-            @click="dialog = false"
+            @click="closeModal"
           >
             Close
           </v-btn>
           <v-btn
+            id="dialog-form-update"
             depressed
             dark
             color="blue-grey"
             :loading="loading"
-            @click="update()"
+            @click="update"
           >
             <v-icon small left>fas fa-save</v-icon> Save
           </v-btn>
@@ -144,6 +139,14 @@ export default {
     update () {
       this.loading = true
       this.editProfile()
+    },
+
+    showModal () {
+      this.dialog = true
+    },
+
+    closeModal () {
+      this.dialog = false
     }
   },
 
@@ -153,7 +156,3 @@ export default {
   }
 }
 </script>
-
-<style lang="sass" scoped>
-
-</style>

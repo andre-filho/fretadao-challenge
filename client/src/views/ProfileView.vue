@@ -3,7 +3,7 @@
     <div>
       <!-- src="https://baazarproductions.com/wp-content/uploads/2018/02/background-horizontal-dark-wood.jpg" -->
       <!-- src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg" -->
-      <v-container id="dark">
+      <v-container id="profile-header">
         <v-row
           align="center"
           justify="center"
@@ -87,7 +87,7 @@
             sm="12"
             md="8" offset-md="2"
           >
-            <v-simple-table>
+            <v-simple-table id="information-table">
               <template v-slot:default>
                 <tbody>
                   <tr>

@@ -2,13 +2,14 @@
   <div>
     <v-fab-transition>
       <v-btn
+        id="modal-open"
         color="blue-grey"
         dark
         fixed
         bottom
         right
         fab
-        @click.stop="dialog = true"
+        @click.stop="showModal"
       >
         <v-icon small>fas fa-user-plus</v-icon>
       </v-btn>
@@ -68,18 +69,20 @@
         <v-card-actions class="pb-6 px-6">
           <v-spacer></v-spacer>
           <v-btn
+            id="modal-close"
             text
             color="blue-grey"
-            @click="dialog = false"
+            @click="closeModal"
           >
             Close
           </v-btn>
           <v-btn
+            id="modal-create"
             depressed
             dark
             color="blue-grey"
             :loading="loading"
-            @click="create()"
+            @click="create"
           >
             <v-icon small left>fas fa-user-plus</v-icon> Create
           </v-btn>
@@ -107,14 +110,6 @@ export default {
     }
   },
 
-  props: {
-    type: String,
-    profile: {
-      type: Object,
-      required: true
-    }
-  },
-
   methods: {
     async createProfile () {
       const profileData = {
@@ -136,19 +131,18 @@ export default {
         })
     },
 
+    showModal () {
+      this.dialog = true
+    },
+
+    closeModal () {
+      this.dialog = false
+    },
+
     create () {
       this.loading = true
       this.createProfile()
     }
-  },
-
-  beforeMount () {
-    this.name = this.profile.name
-    this.url = this.profile.url
   }
 }
 </script>
-
-<style lang="sass" scoped>
-
-</style>

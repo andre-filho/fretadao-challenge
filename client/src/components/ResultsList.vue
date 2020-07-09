@@ -15,10 +15,12 @@
       </v-list-item-avatar>
 
       <v-list-item-content>
-        <v-list-item-title class="text-capitalize" v-text="profile.name"/>
-        <v-list-item-title class="grey--text" v-text="profile.username"/>
+        <v-list-item-title id="profile-name" class="text-capitalize" v-text="profile.name"/>
+        <v-list-item-title id="profile-username" class="grey--text" v-text="profile.username"/>
         <v-list-item-subtitle>
           <a
+            id="results-list-gh-link"
+            v-if="profile.url"
             class="text-decoration-none"
             :href="profile.url"
           >
@@ -93,7 +95,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-
-</style>

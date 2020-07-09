@@ -12,15 +12,15 @@ services:
 before_script:
   - docker-compose up -d
 
-  install: true
+install: true
 
-  script:
-  - >
-    while ! docker logs api | grep "Listening on tcp://0.0.0.0:3000"; do
-        echo "Waiting for start script to finish..."
-        sleep 2
-    done;
-  - docker-compose exec api bundle exec rails db:test:prepare
-  - docker-compose exec api bundle exec rails test
-  - docker-compose exec api bundle exec rubocop --lint
-  - docker-compose exec front yarn run lint-docker
+script:
+- >
+  while ! docker logs api | grep "Listening on tcp://0.0.0.0:3000"; do
+      echo "Waiting for start script to finish..."
+      sleep 2
+  done;
+- docker-compose exec api bundle exec rails db:test:prepare
+- docker-compose exec api bundle exec rails test
+- docker-compose exec api bundle exec rubocop --lint
+- docker-compose exec front yarn run lint-docker

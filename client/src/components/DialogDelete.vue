@@ -1,10 +1,11 @@
 <template>
   <div>
     <v-btn
+      id="dialog-delete-open"
       icon
       dense
       color="error"
-      @click.stop="dialog = true"
+      @click.stop="showModal"
     >
       <v-icon small>fas fa-times</v-icon>
     </v-btn>
@@ -23,16 +24,22 @@
         <v-card-actions>
           <v-spacer></v-spacer>
 
-          <v-btn text dense color="blue-grey" @click="dialog = false">
+          <v-btn
+            id="dialog-delete-close"
+            text
+            dense
+            color="blue-grey"
+            @click="closeModal">
             cancel
           </v-btn>
 
           <v-btn
+            id="dialog-delete-delete"
             depressed
             dense
             color="error"
             :loading="loading"
-            @click="deleteProfile()"
+            @click="deleteAction"
           >
             <v-icon small left>fas fa-trash</v-icon> delete
           </v-btn>
@@ -80,14 +87,18 @@ export default {
         })
     },
 
-    delete () {
+    deleteAction () {
       this.loading = true
       this.deleteProfile()
+    },
+
+    showModal () {
+      this.dialog = true
+    },
+
+    closeModal () {
+      this.dialog = false
     }
   }
 }
 </script>
-
-<style lang="sass" scoped>
-
-</style>
