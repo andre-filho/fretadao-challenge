@@ -17,6 +17,20 @@
         </v-card-title>
 
         <v-card-text>
+          <div
+            v-if="errors.length > 0"
+          >
+            <v-alert
+              v-for="err in errors"
+              :key="err.id"
+              dense
+              dismissible
+              type="error"
+            >
+              {{ err }}
+            </v-alert>
+          </div>
+
           You're about to delete {{ profile.name + "'s" }} profile from this
           application. Are you sure?
         </v-card-text>
