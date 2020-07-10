@@ -7,7 +7,6 @@ services:
     volumes:
       - ./client:/client
       - ./client/node_modules:/client/node_modules
-      - nodemodules:/client/nodemodules
     ports:
       - 8080:8080
     networks:
@@ -48,4 +47,3 @@ networks:
 
 volumes:
   bun:
-  nodemodules:
