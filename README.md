@@ -23,7 +23,7 @@ A aplicação não foi testada fora do ambiente do Docker, porém não existe na
 
 Para executar os testes, é necessário acessar o container do serviço (`front` ou `api`) e executar a suíte de testes de cada tecnologia. Existem diversas formas de realizar esta operação:
 
-```text
+```bash
 # comando run do docker
 $ docker-compose run api bundle exec rails test
 
@@ -35,7 +35,7 @@ $ docker-compose run front yarn run test:unit
 
 Outra forma de acesso seria pelo bash de cada serviço, da seguinte forma:
 
-```text
+```bash
 # exemplos de comando com o exec, para usar o exec os containers devem 
 # estar em execução em outro terminal ou em background
 
@@ -99,23 +99,32 @@ Normalmente se separa em repositórios diferentes os serviços de API e front po
 - O campo de e-mail de um usuário no github só aparece quando se está logado, assim como é possível se observar na API do GH. A listagem de organizações também é reduzida quando se acessa sem o login. O valor do email não é resgatado pelo webscrapping.
 - A listagem de todos os perfis do sistema só ocorre por meio da API. No front-end deve-se pesquisar o perfil somente.
 
-## Observações e pontos de melhoria
+## Observações
 ### Back-end
 - Inicialmente fiz o sistema de encurtamento de URL por meio de webscrapping, porém notei que as URLs encurtadas estavam sendo desativadas depois de aproximadamente 3h de criação. Em outro momento, a URL passou a direcionar para uma página aleatória do Facebook. Então decidi mudar a implementação desta funcionalidade para suprimir esses erros. Optei por implementar essa funcionalidade a partir da gem `shorturl` utilizando o serviço `tinyurl`.
 - Na model de profile decidi manter o encurtamento de URLs assim como a execução do webscrapping dentro da chamada `before_validates`. Assim, aproveitando para fazer a validação das URLs encurtadas juntamente com alguns dos campos coletados do Github.
 - Na model de profile pensei em utilizar outras formas de tratar o problema de perfil não encontrado no github. Pesquisando qual ficaria melhor, fui convencido que a melhor forma de tratar isso seria usando o `errors` da propria ActiveRecord.
+
+### Front-end
+- Para o tratamento de perfis não existentes assim como outras rotas não existentes, fiz com que fosse forçado um redirecionamento à página de início da aplicação. Exibindo um card alert com mensagem.
+- Considerando que antes de recuperar a imagem do usuário o request será redirecionado, decidi tratar uma possível demora de renderização da imagem de perfil do usuário com uma imagem placeholder, utilizando ferramentas já existentes no componente `v-img` do Vuetify.
+- Outra funcionalidade que planejei em fazer mas acabei não implementando seria de restringir as ações para usuários deslogados (login seria na aplicação, sem relação com os perfis do github).
+
+## Pontos de melhoria
+
+### Back-end
+
 - Os testes de webscrapping devem ser melhorados, tanto em desempenho quanto em escrita.
 - Não estava nas especificações, porém tomei a liberdade de encurtar as URLs de imagem também. O encurtamento de URLs serve principalmente para diminuir o tamanho das entradas na tabela do banco de dados, e pensei que diminuir somente o menor link (da página de perfil é bem menor que o da imagem), não fazia muito sentido. Logo também encurtei a URL das imagens.
 - Outro ponto de melhoria seria a configuração das variáveis de ambiente em um arquivo `.env` na raiz do projeto que jamais se subiria no git. Para facilitar a instalação decidi por não configurar desta forma os serviços.
 
 ### Front-end
-- Para o tratamento de perfis não existentes assim como outras rotas não existentes, fiz com que fosse forçado um redirecionamento à página de início da aplicação. Exibindo um card alert com mensagem.
-- Considerando que antes de recuperar a imagem do usuário o request será redirecionado, decidi tratar uma possível demora de renderização da imagem de perfil do usuário com uma imagem placeholder, utilizando ferramentas já existentes no componente `v-img` do Vuetify.
+
 - Uma melhoria no front-end também seriam os testes, que cobrem apenas o essêncial das funções dos componentes.
 - Os testes no front-end estão gerando diversos warnings de console relacionados à componentes do Vuetify, mesmo passando.
 - Outra melhoria do front-end seria a apresentação. Por conta do tempo, mantive a exibição de forma bastante básica.
-- Outra funcionalidade que planejei em fazer mas acabei não implementando seria de restringir as ações para usuários deslogados (login seria na aplicação, sem relação com os perfis do github).
 - O layout do front-end exibido em dispositivos menores pode ser melhorado. As mensagens de erro são exibidas, porém os formulários no front-end não têm validação própria, que é um ponto de melhoria.
+
 
 ## Capturas de tela
 ### Criar perfil
