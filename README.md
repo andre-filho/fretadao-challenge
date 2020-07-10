@@ -96,8 +96,8 @@ Normalmente se separa em repositórios diferentes os serviços de API e front po
 ## Limitações da solução
 
 - A pesquisa tem como limitação encontrar resultados semelhantes à partir do prefix dos campos `:name, :username, :location` e de cada uma das entradas do `:organizations`. Existe a possibilidade de adicionar a pesquisa por meio de um algoritmo de busca baseado em trigramas, utilizando uma extensão nativa do postgres.
-
 - O campo de e-mail de um usuário no github só aparece quando se está logado, assim como é possível se observar na API do GH. A listagem de organizações também é reduzida quando se acessa sem o login. O valor do email não é resgatado pelo webscrapping.
+- A listagem de todos os perfis do sistema só ocorre por meio da API. No front-end deve-se pesquisar o perfil somente.
 
 ## Observações e pontos de melhoria
 ### Back-end
