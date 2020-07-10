@@ -52,15 +52,26 @@ class Profile < ApplicationRecord
     parsed_page = Nokogiri::HTML(raw_page.body)
 
     validate_webpage_as_profile(parsed_page)
+    set_personal_data(parsed_page)
+    set_social_data(parsed_page)
+  end
 
-    self.username = parsed_page.css('.p-nickname').text
-    self.email = parsed_page.css('li.vcard-detail a.u-email').text
-    self.location = parsed_page.css('li.vcard-detail span.p-label').text
+  def set_personal_data(parsed_html)
+    self.username = parsed_html.css('.p-nickname').text
+    self.email = parsed_html.css('li.vcard-detail a.u-email').text
+    self.location = parsed_html.css('li.vcard-detail span.p-label').text
+    image_url = parsed_html.css('img.avatar.avatar-user.border')
 
+    unless image_url.empty?
+      self.image_url = shrink_url(image_url.first['src'])
+    end
+  end
+
+  def set_social_data(parsed_html)
     # network_interactions => followers, following (subscriptions) and stars
-    network_interactions = parsed_page.css('span.text-bold.text-gray-dark')
-    contributions = parsed_page.css('h2.f4.text-normal.mb-2')
-    organizations = parsed_page.css('.h-card div .avatar-group-item')
+    network_interactions = parsed_html.css('span.text-bold.text-gray-dark')
+    contributions = parsed_html.css('h2.f4.text-normal.mb-2')
+    organizations = parsed_html.css('.h-card div .avatar-group-item')
 
     self.contributions = contributions.empty? ? 0 : contributions[1].text[/[0-9]+/]
 
@@ -76,13 +87,6 @@ class Profile < ApplicationRecord
 
     if organizations.any?
       self.organizations = organizations.map { |org| org['aria-label'] }.compact
-    end
-
-    image_url = parsed_page.css('img.avatar.avatar-user.border')
-    unless image_url.empty?
-      self.image_url = shrink_url(image_url.first['src'])
-    else
-      self.image_url = ''
     end
   end
 

@@ -6,7 +6,8 @@
       icon
       dense
       color="blue-grey"
-      @click="editProfile"
+      :loading="loading"
+      @click="update"
     >
       <v-icon small>fas fa-sync</v-icon>
     </v-btn>
@@ -46,30 +47,36 @@
               </v-alert>
             </div>
 
-            <v-row>
-              <v-col cols="12">
-                <v-text-field
-                  dense
-                  outlined
-                  required
-                  label="Name"
-                  hint="Leave unchanged to keep the previous value"
-                  :placeholder="name"
-                  v-model="name"
-                />
-              </v-col>
-              <v-col cols="12">
-                <v-text-field
-                  dense
-                  outlined
-                  required
-                  label="Github URL"
-                  hint="Leave unchanged to keep the previous value"
-                  :placeholder="url"
-                  v-model="url"
-                />
-              </v-col>
-            </v-row>
+            <v-form
+              lazy-validation
+              @submit="update"
+            >
+              <v-row>
+                <v-col cols="12">
+                  <v-text-field
+                    dense
+                    outlined
+                    required
+                    label="Name"
+                    hint="Leave unchanged to keep the previous value"
+                    :placeholder="name"
+                    v-model="name"
+                  />
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field
+                    dense
+                    outlined
+                    required
+                    label="Github URL"
+                    hint="Leave unchanged to keep the previous value"
+                    :placeholder="url"
+                    v-model="url"
+                  />
+                </v-col>
+              </v-row>
+            </v-form>
+
           </v-container>
         </v-card-text>
         <v-card-actions class="pb-6 px-6">
@@ -130,8 +137,8 @@ export default {
   methods: {
     async editProfile () {
       const profileData = {
-        name: this.refresh ? this.name : this.profile.name,
-        url: this.refresh ? this.url : this.profile.url
+        name: !this.refresh ? this.name : this.profile.name,
+        url: !this.refresh ? this.url : this.profile.url
       }
 
       await ProfileAPI.updateProfile(this.profile.id, profileData)
