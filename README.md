@@ -5,8 +5,6 @@
   </h1>
 </div>
 
-
-
 ## Instalação
 Para a execução deste projeto é necessário o [Docker](https://docs.docker.com/engine/install/), juntamente com o [docker-compose](https://docs.docker.com/compose/install/). Para subir o ambiente de desenvolvimento com estas ferramentas basta rodar:
 
@@ -95,19 +93,16 @@ A maior vantagem que eu busquei ao utilizar o docker é ter um ambiente mais iso
 - O layout do front-end exibido em dispositivos menores pode ser melhorado. As mensagens de erro são exibidas, porém os formulários no front-end não têm validação própria, que é um ponto de melhoria.
 
 ## Capturas de tela
+### Criar perfil
 ![screenshot](./img/create.gif)
+### Editar perfil
 ![screenshot](./img/edit-1.gif)
-<br/>
 ![screenshot](./img/edit-2.gif)
-#### Deletar perfil
+### Deletar perfil
 ![screenshot](./img/delete-1.gif)
-<br/>
 ![screenshot](./img/delete-2.gif)
-#### Procurar perfil
+### Procurar perfil
 ![screenshot](./img/search.gif)
-<br/>
 ![screenshot](./img/search-username.gif)
-<br/>
 ![screenshot](./img/search-location.gif)
-<br/>
 ![screenshot](./img/search-organizations.gif)
